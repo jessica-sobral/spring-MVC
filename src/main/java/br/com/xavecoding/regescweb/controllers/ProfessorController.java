@@ -1,6 +1,7 @@
 package br.com.xavecoding.regescweb.controllers;
 
 import br.com.xavecoding.regescweb.models.Professor;
+import br.com.xavecoding.regescweb.models.StatusProfessor;
 import br.com.xavecoding.regescweb.repositories.ProfessorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,16 @@ public class ProfessorController {
         List<Professor> professores = this.professorRepository.findAll();
         ModelAndView mv = new ModelAndView("professores/index");
         mv.addObject("professores", professores);
+
+        return mv;
+    }
+
+    @GetMapping("/professor/new")
+    public ModelAndView nnew() {
+//        return "professores/new";
+
+        ModelAndView mv = new ModelAndView("professores/new");
+        mv.addObject("statusProfessor", StatusProfessor.values());
 
         return mv;
     }
