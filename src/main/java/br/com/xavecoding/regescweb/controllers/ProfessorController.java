@@ -1,5 +1,6 @@
 package br.com.xavecoding.regescweb.controllers;
 
+import br.com.xavecoding.regescweb.dto.RequisicaoNovoProfessor;
 import br.com.xavecoding.regescweb.models.Professor;
 import br.com.xavecoding.regescweb.models.StatusProfessor;
 import br.com.xavecoding.regescweb.repositories.ProfessorRepository;
@@ -26,7 +27,7 @@ public class ProfessorController {
 
     @GetMapping("/professor/new")
     public ModelAndView nnew() {
-//        return "professores/new";
+//        para uma String --> return "professores/new";
 
         ModelAndView mv = new ModelAndView("professores/new");
         mv.addObject("statusProfessor", StatusProfessor.values());
@@ -34,12 +35,11 @@ public class ProfessorController {
         return mv;
     }
 
-//    Web Parameter Tampering.
+//    Web Parameter Tampering -> DTO - Data Transfer Object (Objeto de Transferência de Dados)
     @PostMapping("/professores")
-    public String create(Professor professor) {
-        System.out.println();
-        System.out.println(professor);
-        System.out.println();
+    public String create(RequisicaoNovoProfessor requisicao) {
+        Professor professor = requisicao.toProfessor();
+        this.professorRepository.save(professor);
 
         return "redirect:/professores";
     }
