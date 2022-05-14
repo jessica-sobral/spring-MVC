@@ -101,14 +101,14 @@ public class ProfessorController {
         }
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/{id}")
     public ModelAndView update(@PathVariable Long id, @Valid RequisicaoFormProfessor requisicao, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
-//            ModelAndView mv = new ModelAndView("professores/edit");
-//            mv.addObject("professorId", id);
-//            mv.addObject("listaStatusProfessor", StatusProfessor.values());
+            ModelAndView mv = new ModelAndView("professores/edit");
+            mv.addObject("professorId", id);
+            mv.addObject("listaStatusProfessor", StatusProfessor.values());
 
-            return null;
+            return mv;
         }
         else {
             Optional<Professor> optional = this.professorRepository.findById(id);
