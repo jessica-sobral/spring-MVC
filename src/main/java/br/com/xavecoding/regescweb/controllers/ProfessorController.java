@@ -34,7 +34,7 @@ public class ProfessorController {
 
     @GetMapping("/new")
     public ModelAndView nnew(RequisicaoFormProfessor requisicao) {
-//        para uma String --> return "professores/new";
+//        Para uma String --> return "professores/new";
 
         ModelAndView mv = new ModelAndView("professores/new");
         mv.addObject("listaStatusProfessor", StatusProfessor.values());
@@ -73,7 +73,7 @@ public class ProfessorController {
 
             return mv;
         }
-//        Não achou um registro na tabela professor ou o id informado
+        // Não achou um registro na tabela professor ou o id informado
         else {
             System.out.println("$$$$$$$$$$$ NÃO ACHOU O PROFESSOR DE ID: " + id + " $$$$$$$$$$$");
             return new ModelAndView("redirect:/professores");
@@ -94,10 +94,36 @@ public class ProfessorController {
 
             return mv;
         }
-//        Não achou um registro na tabela professor ou o id informado
+        // Não achou um registro na tabela professor ou o id informado
         else {
             System.out.println("$$$$$$$$$$$ NÃO ACHOU O PROFESSOR DE ID: " + id + " $$$$$$$$$$$");
             return new ModelAndView("redirect:/professores");
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ModelAndView update(@PathVariable Long id, @Valid RequisicaoFormProfessor requisicao, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+//            ModelAndView mv = new ModelAndView("professores/edit");
+//            mv.addObject("professorId", id);
+//            mv.addObject("listaStatusProfessor", StatusProfessor.values());
+
+            return null;
+        }
+        else {
+            Optional<Professor> optional = this.professorRepository.findById(id);
+
+            if(optional.isPresent()) {
+                Professor professor = requisicao.toProfessor(optional.get());
+                this.professorRepository.save(professor);
+
+                return new ModelAndView("redirect:/professores/" + professor.getId());
+            }
+            // Não achou um registro na tabela professor ou o id informado
+            else {
+                System.out.println("######## NÃO ACHOU O PROFESSOR DE ID: " + id + " ########");
+                return new ModelAndView("redirect:/professores");
+            }
         }
     }
 }
