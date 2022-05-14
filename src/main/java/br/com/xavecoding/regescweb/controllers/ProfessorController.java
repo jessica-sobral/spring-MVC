@@ -5,6 +5,7 @@ import br.com.xavecoding.regescweb.models.Professor;
 import br.com.xavecoding.regescweb.models.StatusProfessor;
 import br.com.xavecoding.regescweb.repositories.ProfessorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -76,7 +77,7 @@ public class ProfessorController {
         // Não achou um registro na tabela professor ou o id informado
         else {
             System.out.println("$$$$$$$$$$$ NÃO ACHOU O PROFESSOR DE ID: " + id + " $$$$$$$$$$$");
-            return new ModelAndView("redirect:/professores");
+            return this.retornaErroProfessor("SHOW ERROR: Professor #" + id + " não encontrado no banco!");
         }
     }
 
@@ -97,7 +98,8 @@ public class ProfessorController {
         // Não achou um registro na tabela professor ou o id informado
         else {
             System.out.println("$$$$$$$$$$$ NÃO ACHOU O PROFESSOR DE ID: " + id + " $$$$$$$$$$$");
-            return new ModelAndView("redirect:/professores");
+
+            return this.retornaErroProfessor("EDIT ERROR: Professor #" + id + " não encontrado no banco!");
         }
     }
 
@@ -122,8 +124,34 @@ public class ProfessorController {
             // Não achou um registro na tabela professor ou o id informado
             else {
                 System.out.println("######## NÃO ACHOU O PROFESSOR DE ID: " + id + " ########");
-                return new ModelAndView("redirect:/professores");
+
+                return this.retornaErroProfessor("UPDATE ERROR: Professor #" + id + " não encontrado no banco!");
             }
         }
+    }
+
+    @GetMapping("/{id}/delete")
+    public ModelAndView delete(@PathVariable Long id) {
+        ModelAndView mv = new ModelAndView("redirect:/professores");
+
+        try {
+            this.professorRepository.deleteById(id);
+            mv.addObject("mensagem", "Professor #" + id + " deletado com sucesso!");
+            mv.addObject("erro", false);
+        }
+        catch(EmptyResultDataAccessException e) {
+            System.out.println(e);
+            mv = this.retornaErroProfessor("DELETE ERROR: Professor #" + id + " não encontrado no banco!");
+        }
+
+        return mv;
+    }
+
+    private ModelAndView retornaErroProfessor(String msg) {
+        ModelAndView mv = new ModelAndView("redirect:/professores");
+        mv.addObject("mensagem", msg);
+        mv.addObject("erro", true);
+
+        return mv;
     }
 }
