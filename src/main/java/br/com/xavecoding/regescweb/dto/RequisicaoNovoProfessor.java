@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 public class RequisicaoNovoProfessor {
     @NotBlank
     @NotNull
-    private String nome;
+    private String nome; // Em caso de erro, NotBlank.requisicaoNovoProfessor.nome
     @NotNull
     @DecimalMin("0.0")
     private BigDecimal salario;
