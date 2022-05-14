@@ -1,5 +1,4 @@
 
-
 <head th:fragment="head(titulo)">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,3 +10,29 @@
     <title th:text="${titulo}">Nossa Home!!!</title>
 </head>
 
+<header th:fragment="header(titulo)">
+    <div class="container mt-3">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a aria-current="page" class="nav-link"
+                   th:classappend="${#httpServletRequest.getRequestURI().equals('/') ? 'active':''}"
+                   href="/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" 
+                   th:classappend="${#httpServletRequest.getRequestURI().startsWith('/professores') ? 'active':''}"
+                   href="/professores">Professores</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Alunos</a>
+            </li>
+        </ul>
+    </div>
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-12">
+                <h1 th:text="${titulo}">Oi!</h1>
+            </div>
+        </div>
+    </div>
+</header>

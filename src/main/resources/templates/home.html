@@ -3,28 +3,7 @@
 <head th:replace="~{fragmentos :: head('Home')}"></head>
 
 <body>
-<header>
-    <div class="container mt-3">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a aria-current="page" class="nav-link" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/professores">Professores</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Alunos</a>
-            </li>
-        </ul>
-    </div>
-    <div class="container mt-3">
-        <div class="row">
-            <div class="col-12">
-                <h1 >Sistema Registros Escolares</h1>
-            </div>
-        </div>
-    </div>
-</header>
+<header th:replace="~{fragmentos :: header('Sistema Registros Escolares')}"></header>
 
 <main>
     <div class="container mt-4">
